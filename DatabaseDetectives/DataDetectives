@@ -1,0 +1,69 @@
+# COSC 315 Database Detectives
+Name: Grace Engel
+Date: 1/28/2026
+
+## Task Results
+
+### Task 2 - Inventory the Database
+Link to Finalized DrawSQL ERD: https://drawsql.app/teams/judith-grace/diagrams/database-detective
+
+How many tables exist: 11
+Which tables appear to represent core entities vs. supporting or join tables: These represent the "core entities"- Client Staff, Recording, Sale, Release, Creator, and Collection. Supporting tables, include Style and Format. SaleItem and CollectionItem faLL under join tables.
+Are there naming patterns that suggest relationships: The naming patterns make relationships easy to understand. Most tables use an “Id” field as a primary key, and those same names appear in other tables to show connections between them (like ClientId or RecordingId). Tables such as SaleItem and CollectionItem clearly link two main tables together, which suggests many-to-many relationships. Overall, the consistent naming helps show how the tables are related without needing extra explanation.
+
+### Task 3 - Hypothesize and Test Relationships
+Enter your report here.
+HYPOTHESIS: Based on column names and data types, Sale.ClientId appears to function as a foreign key referencing Client.ClientId. This suggests a one-to-many relationship in which one client can be associated with multiple sales, while each sale is associated with exactly one client.
+
+SELECT Sale.SaleId, Client.FirstName, Client.LastName
+FROM Sale
+JOIN Client ON Sale.ClientId = Client.ClientId
+LIMIT 15; 
++--------+-----------+------------+
+| SaleId | FirstName | LastName   |
++--------+-----------+------------+
+|     98 | Luís      | Gonçalves  |
+|    121 | Luís      | Gonçalves  |
+|    143 | Luís      | Gonçalves  |
+|    195 | Luís      | Gonçalves  |
+|    316 | Luís      | Gonçalves  |
+|    327 | Luís      | Gonçalves  |
+|    382 | Luís      | Gonçalves  |
+|      1 | Leonie    | Köhler     |
+|     12 | Leonie    | Köhler     |
+|     67 | Leonie    | Köhler     |
+|    196 | Leonie    | Köhler     |
+|    219 | Leonie    | Köhler     |
+|    241 | Leonie    | Köhler     |
+|    293 | Leonie    | Köhler     |
+|     99 | François  | Tremblay   |
++--------+-----------+------------+ 
+
+What evidence supports or contradicts each hypothesis?
+My hypothesis is supported by the join results, that show multiple sales associated with the same client and no sales without client information. There wasn't any evidence I found that contradicts my hypothesis.
+Do joins behave as expected?
+The join worked as expected, showing one row for each sale along with the correct client information.
+Are there orphaned records?
+No orphaned records were found. Every sale matched to a client when joined using ClientId.
+Do joins unexpectedly multiply rows?
+The join did not create any unexpected extra rows. Each sale appears only once, and client names repeat only because clients can have multiple sales.
+
+### Task 4 - Aggregation & Uniqueness Analysis
+Enter your report here.
+SELECT ClientId, COUNT(*) AS NumSales
+FROM Sale
+GROUP BY ClientId;
+
+### Task 5 - Anomalies & Design Issues
+Enter your report here.
+
+### Task 6 - Explore the Data
+Enter your report here.
+
+## Appendices
+
+### AI Traceability Log
+
+AI Used: 
+
+### SQL Log
